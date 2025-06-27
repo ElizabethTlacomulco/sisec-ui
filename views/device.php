@@ -23,7 +23,7 @@ if (!$device) {
 ob_start();
 ?>
 
-<h2>Ficha del dispositivo</h2>
+<h2>Ficha técnica</h2>
 
 <div class="row">
   <div class="col-md-4 text-center">

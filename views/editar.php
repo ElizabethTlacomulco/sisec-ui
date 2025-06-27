@@ -64,16 +64,16 @@ ob_start();
 
   <div class="col-md-6">
     <label class="form-label">Imagen actual:</label><br>
-    <img src="../public/uploads/<?= htmlspecialchars($device['imagen']) ?>" width="100" alt="Imagen"><br>
+    <img src="../public/uploads/<?= htmlspecialchars($device['imagen']) ?>" width="200" alt="Imagen"><br>
     <label class="form-label mt-2">Cambiar imagen</label>
     <input type="file" name="imagen" class="form-control" accept="image/*">
   </div>
 
   <div class="col-md-6">
-    <label class="form-label">imagen actual:</label><br>
-    <a href="../public/uploads/<?= htmlspecialchars($device['imagen']) ?>" target="_blank">Ver imagen</a><br>
+    <label class="form-label">Imagen actual:</label><br>
+    <img src="../public/uploads/<?= htmlspecialchars($device['imagen2']) ?>" width="200" alt="Imagen"><br>
     <label class="form-label mt-2">Cambiar imagen</label>
-    <input type="file" name="imagen" class="form-control" accept="application/pdf">
+    <input type="file" name="imagen2" class="form-control" accept="image2/*">
   </div>
 
   <div class="col-12">
