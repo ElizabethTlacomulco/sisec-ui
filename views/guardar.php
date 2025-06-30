@@ -12,14 +12,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $imagen   = $_FILES['imagen']['name'];
     $imagen2  = $_FILES['imagen2']['name'];
-    $archivo  = $_FILES['archivo']['name'];
 
     move_uploaded_file($_FILES['imagen']['tmp_name'], '../public/uploads/' . $imagen);
     move_uploaded_file($_FILES['imagen2']['tmp_name'], '../public/uploads/' . $imagen2);
-    move_uploaded_file($_FILES['archivo']['tmp_name'], '../public/uploads/' . $archivo);
 
-    $stmt = $conn->prepare("INSERT INTO dispositivos (tipo, modelo, sucursal, estado, fecha, observaciones, imagen, imagen2, archivo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("sssssssss", $tipo, $modelo, $sucursal, $estado, $fecha, $observaciones, $imagen, $imagen2, $archivo);
+    $stmt = $conn->prepare("INSERT INTO dispositivos (tipo, modelo, sucursal, estado, fecha, observaciones, imagen, imagen2) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("ssssssss", $tipo, $modelo, $sucursal, $estado, $fecha, $observaciones, $imagen, $imagen2);
     $stmt->execute();
 
     $id = $stmt->insert_id;
@@ -34,3 +32,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     header('Location: device.php?id=' . $id);
     exit;
 }
+
