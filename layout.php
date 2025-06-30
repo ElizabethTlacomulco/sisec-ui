@@ -77,10 +77,11 @@
     <a href="index.php" class="<?= ($activePage ?? '') === 'inicio' ? 'active' : '' ?>"><i class="fas fa-home"></i> Inicio</a>
     <a href="listar.php" class="<?= ($activePage ?? '') === 'dispositivos' ? 'active' : '' ?>"><i class="fas fa-camera"></i> Dispositivos</a>
     <a href="registro.php" class="<?= ($activePage ?? '') === 'registro' ? 'active' : '' ?>"><i class="fas fa-plus-circle"></i> Registrar</a>
-    <a href="#" class="<?= ($activePage ?? '') === 'usuarios' ? 'active' : '' ?>"><i class="fas fa-user"></i> Usuarios</a>
+    <a href="usuarios\index.php" class="<?= ($activePage ?? '') === 'usuarios' ? 'active' : '' ?>"><i class="fas fa-user"></i> Usuarios</a>
     <a href="#" class="<?= ($activePage ?? '') === 'reportes' ? 'active' : '' ?>"><i class="fas fa-folder"></i> Reportes</a>
   </div>
 
+  '/../../includes/conexion.php'
   <!-- Topbar -->
   <div class="topbar">
     <div><h5 class="m-0"><?= htmlspecialchars($pageHeader ?? 'SISEC') ?></h5></div>

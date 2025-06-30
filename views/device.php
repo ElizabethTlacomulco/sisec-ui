@@ -57,4 +57,4 @@ $pageTitle = "Ficha dispositivo #$id";
 $pageHeader = "Dispositivo #$id";
 $activePage = ""; // Ninguno activo
 
-include '../includes/layout.php';
+include __DIR__ . '/../layout.php';

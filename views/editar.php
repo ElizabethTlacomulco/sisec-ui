@@ -88,4 +88,4 @@ $pageTitle = "Editar dispositivo #$id";
 $pageHeader = "Editar dispositivo";
 $activePage = "";
 
-include '../includes/layout.php';
+include __DIR__ . '/../layout.php';

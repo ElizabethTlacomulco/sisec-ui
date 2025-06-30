@@ -1,5 +1,7 @@
 <?php
+
 include '../includes/db.php';
+
 ob_start();
 
 // Consultas reales a la base de datos
@@ -143,4 +145,4 @@ $pageTitle = "Inicio";
 $pageHeader = "Panel de control";
 $activePage = "inicio";
 
-include '../includes/layout.php';
+include __DIR__ . '/../layout.php';

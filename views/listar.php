@@ -52,4 +52,4 @@ $pageTitle = "Listado de dispositivos";
 $pageHeader = "Dispositivos";
 $activePage = "dispositivos";
 
-include '../includes/layout.php';
+include __DIR__ . '/../layout.php';
