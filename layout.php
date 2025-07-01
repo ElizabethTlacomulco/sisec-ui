@@ -1,3 +1,11 @@
+<?php
+session_start();
+if (!isset($_SESSION['usuario'])) {
+  header("Location: login.php");
+  exit;
+}
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -81,15 +89,23 @@
     <a href="/sisec-ui/views/usuarios/registrar.php" class="<?= ($activePage ?? '') === 'reportes' ? 'active' : '' ?>"><i class="fa-regular fa-user" style="color: #ffffff;"></i> Registrar usuario</a>
   </div>
 
-  <!-- Topbar -->
   <div class="topbar">
-    <div><h5 class="m-0"><?= htmlspecialchars($pageHeader ?? 'SISEC') ?></h5></div>
+    <div class="d-flex align-items-center">
+      <span class="sidebar-toggler d-md-none" onclick="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+      </span>
+      <h5 class="m-0 ms-2"><?= htmlspecialchars($pageHeader ?? 'SISEC') ?></h5>
+    </div>
+
     <div class="topbar-right d-flex align-items-center">
-      <i class="fas fa-bell"></i>
-      <i class="fas fa-cog"></i>
-      <img src="https://i.pravatar.cc/36" alt="Perfil">
+      <i class="fas fa-bell me-3"></i>
+      <i class="fas fa-cog me-3"></i>
+      <span class="me-2"><?= htmlspecialchars($_SESSION['nombre'] ?? 'Usuario') ?></span>
+      <img src="https://i.pravatar.cc/36" alt="Perfil" class="me-3">
+      <a href="/sisec-ui/logout.php" class="btn btn-sm btn-outline-secondary">Cerrar sesión</a>
     </div>
   </div>
+
 
   <!-- Contenido principal -->
   <main class="main">
