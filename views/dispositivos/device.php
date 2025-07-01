@@ -1,5 +1,6 @@
 <?php
-include '../includes/db.php';
+include __DIR__ . '/../../includes/db.php';
+
 
 // Validar el ID recibido
 if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
@@ -57,4 +58,4 @@ $pageTitle = "Ficha dispositivo #$id";
 $pageHeader = "Dispositivo #$id";
 $activePage = ""; // Ninguno activo
 
-include __DIR__ . '/../layout.php';
+include __DIR__ . '/../../layout.php';

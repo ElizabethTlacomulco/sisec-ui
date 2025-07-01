@@ -1,5 +1,6 @@
 <?php
-include '../includes/db.php';
+include __DIR__ . '/../../includes/db.php';
+
 
 if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
     die('ID inválido o no especificado.');
@@ -88,4 +89,4 @@ $pageTitle = "Editar dispositivo #$id";
 $pageHeader = "Editar dispositivo";
 $activePage = "";
 
-include __DIR__ . '/../layout.php';
+include __DIR__ . '/../../layout.php';

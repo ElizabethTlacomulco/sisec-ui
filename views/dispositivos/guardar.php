@@ -1,5 +1,6 @@
 <?php
-include '../includes/db.php';
+
+include __DIR__ . '/../../includes/db.php';
 include '../vendor/phpqrcode/qrlib.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

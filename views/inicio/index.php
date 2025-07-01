@@ -1,6 +1,7 @@
 <?php
 
-include '../includes/db.php';
+include __DIR__ . '/../../includes/db.php';
+
 
 ob_start();
 
@@ -87,16 +88,17 @@ $actividad = [27, 17, 16, 28, 13, 4, 0];
 <!-- Botones rápidos -->
 <div class="d-flex justify-content-center gap-3">
   <div class="col-md-3">
-    <a href="registro.php" class="btn btn-outline-primary w-100 py-3 rounded shadow-sm">
+    <a href="/sisec-ui/views/dispositivos/registro.php" class="btn btn-outline-primary w-100 py-3 rounded shadow-sm">
       <i class="fas fa-qrcode fa-lg me-2"></i> Registro nuevo dispositivo
     </a>
   </div>
-<div class="d-flex justify-content-center gap-3">
-    <a href="usuarios.php" class="btn btn-outline-success w-100 py-3 rounded shadow-sm">
+  <div class="col-md-3">
+    <a href="/sisec-ui/views/usuarios/registrar.php" class="btn btn-outline-success w-100 py-3 rounded shadow-sm">
       <i class="fas fa-user-plus fa-lg me-2"></i> Registro rápido de usuario
     </a>
   </div>
 </div>
+
 
 <!-- Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -141,8 +143,6 @@ $actividad = [27, 17, 16, 28, 13, 4, 0];
 
 <?php
 $content = ob_get_clean();
-$pageTitle = "Inicio";
-$pageHeader = "Panel de control";
-$activePage = "inicio";
 
-include __DIR__ . '/../layout.php';
+
+include __DIR__ . '/../../layout.php';

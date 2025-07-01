@@ -1,5 +1,6 @@
 <?php
-include '../includes/db.php';
+include __DIR__ . '/../../includes/db.php';
+
 
 // Obtener todos los dispositivos
 $result = $conn->query("SELECT * FROM dispositivos ORDER BY id ASC");
@@ -52,4 +53,4 @@ $pageTitle = "Listado de dispositivos";
 $pageHeader = "Dispositivos";
 $activePage = "dispositivos";
 
-include __DIR__ . '/../layout.php';
+include __DIR__ . '/../../layout.php';
