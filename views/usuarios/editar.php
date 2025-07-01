@@ -24,7 +24,7 @@ ob_start();
 
 <h2 class="mb-4">Editar usuario</h2>
 
-<form action="controllers/UserController.php" method="POST" class="card p-4 shadow-sm" style="max-width: 500px;">
+<form action="/sisec-ui/controllers/UserController.php" method="POST" class="card p-4 shadow-sm" style="max-width: 500px;">
   <input type="hidden" name="accion" value="actualizar">
   <input type="hidden" name="id" value="<?= $usuario['id'] ?>">
 

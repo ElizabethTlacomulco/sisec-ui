@@ -9,14 +9,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['accion'] === 'crear') {
   $stmt->bind_param("ss", $nombre, $rol);
   $stmt->execute();
 
-  header("Location: ../index.php?view=usuarios");
+  header("Location: ../index.php?views=usuarios");
   exit;
 }
 
 if ($_GET['accion'] === 'eliminar' && isset($_GET['id'])) {
   $id = intval($_GET['id']);
   $conexion->query("DELETE FROM usuarios WHERE id = $id");
-  header("Location: ../index.php?view=usuarios");
+  header("Location: ../index.php?views=usuarios");
   exit;
 }
 
@@ -30,6 +30,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['accion'] === 'actualizar') 
   $stmt->bind_param("ssi", $nombre, $rol, $id);
   $stmt->execute();
 
-  header("Location: ../index.php?view=usuarios");
+  header("Location: ../index.php?views=usuarios");
   exit;
 }

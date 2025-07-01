@@ -13,14 +13,14 @@ $usuarios = $conexion->query("SELECT id, nombre, rol FROM usuarios");
 <h2 class="mb-4">Usuarios registrados</h2>
 
 <div class="mb-3 text-end">
-  <a href="?view=usuarios_registrar" class="btn btn-success">
+  <a href="/sisec-ui/views/usuarios/registrar.php" class="btn btn-success">
     <i class="fas fa-user-plus me-1"></i> Nuevo usuario
   </a>
 </div>
 
 <div class="table-responsive shadow-sm">
   <table class="table table-hover align-middle">
-    <thead class="table-light">
+    <thead class="table-primary">
       <tr>
         <th style="width: 50px;"><i class="fas fa-user"></i></th>
         <th>Nombre</th>
@@ -37,7 +37,7 @@ $usuarios = $conexion->query("SELECT id, nombre, rol FROM usuarios");
           <td><?= htmlspecialchars($u['nombre']) ?></td>
           <td><?= htmlspecialchars($u['rol']) ?></td>
           <td class="text-center">
-            <a href="?view=usuarios_editar&id=<?= $u['id'] ?>" class="btn btn-sm btn-warning me-1">
+            <a href="editar.php?id=<?= $u['id'] ?>" class="btn btn-sm btn-warning me-1">
               <i class="fas fa-edit"></i>
             </a>
             <a href="controllers/UserController.php?accion=eliminar&id=<?= $u['id'] ?>" 
