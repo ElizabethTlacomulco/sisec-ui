@@ -13,14 +13,13 @@ $usuarios = $conexion->query("SELECT id, nombre, rol FROM usuarios");
 <h2 class="mb-4">Usuarios registrados</h2>
 
 <div class="mb-3 text-end">
-  <a href="?view=usuarios_registrar" class="btn btn-success">
+  <a href="registrar.php" class="btn btn-success">
     <i class="fas fa-user-plus me-1"></i> Nuevo usuario
   </a>
 </div>
 
-<div class="table-responsive shadow-sm">
-  <table class="table table-hover align-middle">
-    <thead class="table-light">
+  <table class="table table-striped table-bordered text-center align-middle">
+    <thead class="table-primary">
       <tr>
         <th style="width: 50px;"><i class="fas fa-user"></i></th>
         <th>Nombre</th>
@@ -32,7 +31,11 @@ $usuarios = $conexion->query("SELECT id, nombre, rol FROM usuarios");
       <?php while ($u = $usuarios->fetch_assoc()): ?>
         <tr>
           <td class="text-center">
-            <i class="fas fa-user-circle fa-2x text-secondary"></i>
+            <?php if (!empty($u['foto'])): ?>
+              <img src="uploads/usuarios/<?= htmlspecialchars($u['foto']) ?>" alt="Foto de <?= htmlspecialchars($u['nombre']) ?>" style="width:40px; height:40px; border-radius:50%;">
+            <?php else: ?>
+              <i class="fas fa-user-circle fa-2x text-secondary"></i>
+            <?php endif; ?>
           </td>
           <td><?= htmlspecialchars($u['nombre']) ?></td>
           <td><?= htmlspecialchars($u['rol']) ?></td>
@@ -40,7 +43,7 @@ $usuarios = $conexion->query("SELECT id, nombre, rol FROM usuarios");
             <a href="?view=usuarios_editar&id=<?= $u['id'] ?>" class="btn btn-sm btn-warning me-1">
               <i class="fas fa-edit"></i>
             </a>
-            <a href="controllers/UserController.php?accion=eliminar&id=<?= $u['id'] ?>" 
+            <a href="/../../controllers/UserController.php?accion=eliminar&id=<?= $u['id'] ?>" 
                onclick="return confirm('¿Eliminar este usuario?')" 
                class="btn btn-sm btn-danger">
               <i class="fas fa-trash"></i>
@@ -58,3 +61,5 @@ $content = ob_get_clean();
 include __DIR__ . '/../../layout.php';
 
 ?>
+
+

@@ -1,7 +1,9 @@
 <?php
 
 include __DIR__ . '/../../includes/db.php';
-include '../vendor/phpqrcode/qrlib.php';
+include __DIR__ . '/../../vendor/phpqrcode/qrlib.php';
+
+
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $tipo         = $_POST['tipo'];
@@ -24,8 +26,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $id = $stmt->insert_id;
 
     // Generar QR con URL del dispositivo
-    $qr_path = '../public/qrcodes/qr_' . $id . '.png';
-    $qr_url  = 'http://localhost/sisec-ui/views/device.php?id=' . $id;
+    $qr_path = 'sisec-ui/public/qrcodes/qr_' . $id . '.png';
+    $qr_url  = 'http://localhost/sisec-ui/views/dispositivos/device.php?id=' . $id;
     QRcode::png($qr_url, $qr_path, QR_ECLEVEL_H, 10);
 
     $conn->query("UPDATE dispositivos SET qr = 'qr_$id.png' WHERE id = $id");
