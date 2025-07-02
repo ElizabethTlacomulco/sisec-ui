@@ -75,14 +75,25 @@
 <body>
 
   <!-- Sidebar -->
-  <div class="sidebar">
-    <h4><i class="fas fa-user-circle"></i> SISEC</h4>
-    <a href="/sisec-ui/views/inicio/index.php" class="<?= ($activePage ?? '') === 'inicio' ? 'active' : '' ?>"><i class="fas fa-home"></i> Inicio</a>
-    <a href="/sisec-ui/views/dispositivos/listar.php" class="<?= ($activePage ?? '') === 'dispositivos' ? 'active' : '' ?>"><i class="fas fa-camera"></i> Dispositivos</a>
-    <a href="/sisec-ui/views/dispositivos/registro.php" class="<?= ($activePage ?? '') === 'registro' ? 'active' : '' ?>"><i class="fas fa-plus-circle"></i> Registrar dispositivo</a>
-    <a href="/sisec-ui/views/usuarios/index.php" class="<?= ($activePage ?? '') === 'usuarios' ? 'active' : '' ?>"><i class="fa-solid fa-users" style="color: #ffffff;"></i> Usuarios</a>
-    <a href="/sisec-ui/views/usuarios/registrar.php" class="<?= ($activePage ?? '') === 'reportes' ? 'active' : '' ?>"><i class="fa-solid fa-user-plus" style="color: #ffffff;"></i> Registrar usuario</a>
+  <div class="sidebar d-flex flex-column justify-content-between">
+    <div>
+      <h4><i class="fas fa-user-circle"></i> SISEC</h4>
+      <a href="/sisec-ui/views/inicio/index.php" class="<?= ($activePage ?? '') === 'inicio' ? 'active' : '' ?>"><i class="fas fa-home"></i> Inicio</a>
+      <a href="/sisec-ui/views/dispositivos/listar.php" class="<?= ($activePage ?? '') === 'dispositivos' ? 'active' : '' ?>"><i class="fas fa-camera"></i> Dispositivos</a>
+      <a href="/sisec-ui/views/dispositivos/registro.php" class="<?= ($activePage ?? '') === 'registro' ? 'active' : '' ?>"><i class="fas fa-plus-circle"></i> Registrar dispositivo</a>
+      <a href="/sisec-ui/views/usuarios/index.php" class="<?= ($activePage ?? '') === 'usuarios' ? 'active' : '' ?>"><i class="fa-solid fa-users"></i> Usuarios</a>
+      <a href="/sisec-ui/views/usuarios/registrar.php" class="<?= ($activePage ?? '') === 'reportes' ? 'active' : '' ?>"><i class="fa-solid fa-user-plus"></i> Registrar usuario</a>
+    </div>
+
+    <?php if (isset($_SESSION['usuario_id'])): ?>
+      <div class="mt-auto">
+        <a href="/sisec-ui/logout.php" class="text-white px-3 py-2 d-block text-start">
+          <i class="fas fa-sign-out-alt me-2"></i> Cerrar sesión
+        </a>
+      </div>
+    <?php endif; ?>
   </div>
+
 
   <!-- Topbar -->
   <div class="topbar">

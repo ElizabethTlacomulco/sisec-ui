@@ -1,4 +1,9 @@
 <?php
+session_start();
+if (!isset($_SESSION['usuario_id'])) {
+  header('Location: /sisec-ui/login.php');
+  exit;
+}
 
 include __DIR__ . '/../../includes/db.php';
 
