@@ -28,7 +28,7 @@ ob_start();
 
 <div class="row">
   <div class="col-md-4 text-center">
-    <img src="../public/uploads/<?= htmlspecialchars($device['imagen']) ?>" 
+    <img src="sisec-ui/public/uploads/<?= htmlspecialchars($device['imagen']) ?>" 
          alt="Imagen del dispositivo" 
          class="img-fluid rounded shadow-sm" 
          style="max-height: 300px; object-fit: scale-down;">
@@ -43,8 +43,8 @@ ob_start();
         <tr><th>Estado</th><td><?= htmlspecialchars($device['estado']) ?></td></tr>
         <tr><th>Fecha</th><td><?= htmlspecialchars($device['fecha']) ?></td></tr>
         <tr><th>Observaciones</th><td><?= nl2br(htmlspecialchars($device['observaciones'])) ?></td></tr>
-        <tr><th>Imagen adjunta</th><td><a href="../public/uploads/<?= htmlspecialchars($device['imagen2']) ?>" target="_blank">Ver imagen</a></td></tr>
-        <tr><th>Código QR</th><td><img src="../public/qrcodes/<?= htmlspecialchars($device['qr']) ?>" width="150" alt="Código QR"></td></tr>
+        <tr><th>Imagen adjunta</th><td><a href="/sisec-ui/public/uploads/<?= htmlspecialchars($device['imagen2']) ?>" target="_blank">Ver imagen</a></td></tr>
+        <tr><th>Código QR</th><td><img src="/sisec-ui/public/qrcodes/<?= htmlspecialchars($device['qr']) ?>" width="150" alt="Código QR"></td></tr>
       </tbody>
     </table>
     <a href="listar.php" class="btn btn-secondary mt-3"><i class="fas fa-arrow-left"></i> Volver al listado</a>
