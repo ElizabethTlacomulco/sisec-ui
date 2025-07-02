@@ -28,7 +28,7 @@ ob_start();
 
 <div class="row">
   <div class="col-md-4 text-center">
-    <img src="sisec-ui/public/uploads/<?= htmlspecialchars($device['imagen']) ?>" 
+    <img src="/sisec-ui/public/uploads/<?= htmlspecialchars($device['imagen']) ?>" 
          alt="Imagen del dispositivo" 
          class="img-fluid rounded shadow-sm" 
          style="max-height: 300px; object-fit: scale-down;">
