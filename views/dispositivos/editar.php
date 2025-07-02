@@ -1,92 +1,161 @@
-<?php
-include __DIR__ . '/../../includes/db.php';
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>SISEC - <?= htmlspecialchars($pageTitle ?? 'Página') ?></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f9f9f9;
+    }
 
-if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
-    die('ID inválido o no especificado.');
-}
+    .topbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 60px;
+      background: #fff;
+      border-bottom: 1px solid #ccc;
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 1040;
+    }
 
-$id = (int)$_GET['id'];
-$stmt = $conn->prepare("SELECT * FROM dispositivos WHERE id = ?");
-$stmt->bind_param("i", $id);
-$stmt->execute();
-$result = $stmt->get_result();
-$device = $result->fetch_assoc();
+    .sidebar {
+      width: 220px;
+      top: 60px;
+      height: calc(100vh - 60px);
+      background: linear-gradient(to bottom, #20c6c6, #1a9e9e);
+      color: white;
+      display: flex;
+      flex-direction: column;
+      padding: 20px 0;
+      position: fixed;
+      z-index: 1030;
+    }
 
-if (!$device) {
-    die('Dispositivo no encontrado.');
-}
+    .sidebar h4 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
 
-ob_start();
-?>
+    .sidebar a {
+      color: white;
+      padding: 12px 20px;
+      display: block;
+      text-decoration: none;
+      transition: background 0.3s;
+    }
 
-<h2>Editar dispositivo</h2>
+    .sidebar a:hover,
+    .sidebar a.active {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
 
-<form action="actualizar.php" method="post" enctype="multipart/form-data" class="row g-3">
-  <input type="hidden" name="id" value="<?= $device['id'] ?>">
+    .sidebar i {
+      margin-right: 10px;
+    }
 
-  <div class="col-md-6">
-    <label class="form-label">Tipo</label>
-    <select type="tipo" name="tipo" class="form-select" required>
-      <option value="Camara" <?= $device['tipo'] == 'Camara' ? 'selected' : '' ?>>Camara</option>
-      <option value="Alarma" <?= $device['tipo'] == 'Alarma' ? 'selected' : '' ?>>Alarma</option>
-      <option value="Sensor de humo" <?= $device['tipo'] == 'Sensor de humo' ? 'selected' : '' ?>>Sensor de humo</option>
-    </select>
+    .main {
+      padding: 30px;
+      margin-top: 60px;
+    }
+
+    @media (min-width: 768px) {
+      .main {
+        margin-left: 220px;
+      }
+    }
+
+    .topbar-right i {
+      font-size: 18px;
+      margin-left: 20px;
+      cursor: pointer;
+    }
+
+    .topbar-right img {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Topbar -->
+  <div class="topbar w-100">
+    <div class="d-flex align-items-center gap-3">
+      <!-- Botón menú móvil -->
+      <button class="btn d-md-none" data-bs-toggle="offcanvas" data-bs-target="#mobileMenu">
+        <i class="fas fa-bars"></i>
+      </button>
+      <h5 class="m-0"><?= htmlspecialchars($pageHeader ?? 'SISEC') ?></h5>
+    </div>
+    <div class="topbar-right d-flex align-items-center">
+      <i class="fas fa-bell"></i>
+      <i class="fas fa-cog"></i>
+      <img src="https://i.pravatar.cc/36" alt="Perfil">
+    </div>
   </div>
 
-  <div class="col-md-6">
-    <label class="form-label">Modelo</label>
-    <input type="text" name="modelo" class="form-control" value="<?= htmlspecialchars($device['modelo']) ?>" required>
+  <!-- Sidebar (pantallas md en adelante) -->
+  <div class="sidebar d-none d-md-flex flex-column justify-content-between">
+    <div>
+      <h4><i class="fas fa-user-circle"></i> SISEC</h4>
+      <a href="/sisec-ui/views/inicio/index.php" class="<?= ($activePage ?? '') === 'inicio' ? 'active' : '' ?>"><i class="fas fa-home"></i> Inicio</a>
+      <a href="/sisec-ui/views/dispositivos/listar.php" class="<?= ($activePage ?? '') === 'dispositivos' ? 'active' : '' ?>"><i class="fas fa-camera"></i> Dispositivos</a>
+      <a href="/sisec-ui/views/dispositivos/registro.php" class="<?= ($activePage ?? '') === 'registro' ? 'active' : '' ?>"><i class="fas fa-plus-circle"></i> Registrar dispositivo</a>
+      <a href="/sisec-ui/views/usuarios/index.php" class="<?= ($activePage ?? '') === 'usuarios' ? 'active' : '' ?>"><i class="fa-solid fa-users"></i> Usuarios</a>
+      <a href="/sisec-ui/views/usuarios/registrar.php" class="<?= ($activePage ?? '') === 'reportes' ? 'active' : '' ?>"><i class="fa-solid fa-user-plus"></i> Registrar usuario</a>
+    </div>
+    <?php if (isset($_SESSION['usuario_id'])): ?>
+      <div class="mt-auto">
+        <a href="/sisec-ui/logout.php" class="text-white px-3 py-2 d-block text-start">
+          <i class="fas fa-sign-out-alt me-2"></i> Cerrar sesión
+        </a>
+      </div>
+    <?php endif; ?>
   </div>
 
-  <div class="col-md-6">
-    <label class="form-label">Sucursal</label>
-    <input type="text" name="sucursal" class="form-control" value="<?= htmlspecialchars($device['sucursal']) ?>" required>
+  <!-- Contenido principal -->
+  <main class="main">
+    <?= $content ?? '<p>Contenido no definido.</p>' ?>
+  </main>
+
+  <!-- Sidebar móvil -->
+  <div class="offcanvas offcanvas-start text-white" tabindex="-1" id="mobileMenu" style="background: linear-gradient(to bottom, #20c6c6, #1a9e9e);">
+  <div class="offcanvas-header border-bottom">
+    <h5 class="offcanvas-title"><i class="fas fa-user-circle me-2"></i>SISEC</h5>
+    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
   </div>
-
-  <div class="col-md-6">
-    <label class="form-label">Estado</label>
-    <select name="estado" class="form-select" required>
-      <option value="Activo" <?= $device['estado'] == 'Activo' ? 'selected' : '' ?>>Activo</option>
-      <option value="En mantenimiento" <?= $device['estado'] == 'En mantenimiento' ? 'selected' : '' ?>>En mantenimiento</option>
-      <option value="Desactivado" <?= $device['estado'] == 'Desactivado' ? 'selected' : '' ?>>Desactivado</option>
-    </select>
+  <div class="offcanvas-body d-flex flex-column justify-content-between">
+    <div>
+      <a href="/sisec-ui/views/inicio/index.php" class="d-block mb-2 text-white text-decoration-none"><i class="fas fa-home me-2"></i>Inicio</a>
+      <a href="/sisec-ui/views/dispositivos/listar.php" class="d-block mb-2 text-white text-decoration-none"><i class="fas fa-camera me-2"></i>Dispositivos</a>
+      <a href="/sisec-ui/views/dispositivos/registro.php" class="d-block mb-2 text-white text-decoration-none"><i class="fas fa-plus-circle me-2"></i>Registrar dispositivo</a>
+      <a href="/sisec-ui/views/usuarios/index.php" class="d-block mb-2 text-white text-decoration-none"><i class="fa-solid fa-users me-2"></i>Usuarios</a>
+      <a href="/sisec-ui/views/usuarios/registrar.php" class="d-block mb-2 text-white text-decoration-none"><i class="fa-solid fa-user-plus me-2"></i>Registrar usuario</a>
+    </div>
+    <?php if (isset($_SESSION['usuario_id'])): ?>
+      <div class="mt-3">
+        <hr class="border-light">
+        <a href="/sisec-ui/logout.php" class="d-block text-white text-decoration-none">
+          <i class="fas fa-sign-out-alt me-2"></i> Cerrar sesión
+        </a>
+      </div>
+    <?php endif; ?>
   </div>
+</div>
 
-  <div class="col-md-6">
-    <label class="form-label">Fecha</label>
-    <input type="date" name="fecha" class="form-control" value="<?= htmlspecialchars($device['fecha']) ?>" required>
-  </div>
 
-  <div class="col-12">
-    <label class="form-label">Observaciones</label>
-    <textarea name="observaciones" class="form-control" rows="3"><?= htmlspecialchars($device['observaciones']) ?></textarea>
-  </div>
-
-  <div class="col-md-6">
-    <label class="form-label">Imagen actual:</label><br>
-    <img src="../public/uploads/<?= htmlspecialchars($device['imagen']) ?>" width="200" alt="Imagen"><br>
-    <label class="form-label mt-2">Cambiar imagen</label>
-    <input type="file" name="imagen" class="form-control" accept="image/*">
-  </div>
-
-  <div class="col-md-6">
-    <label class="form-label">Imagen actual:</label><br>
-    <img src="../public/uploads/<?= htmlspecialchars($device['imagen2']) ?>" width="200" alt="Imagen"><br>
-    <label class="form-label mt-2">Cambiar imagen</label>
-    <input type="file" name="imagen2" class="form-control" accept="image2/*">
-  </div>
-
-  <div class="col-12">
-    <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Guardar cambios</button>
-    <a href="device.php?id=<?= $id ?>" class="btn btn-secondary">Cancelar</a>
-  </div>
-</form>
-
-<?php
-$content = ob_get_clean();
-$pageTitle = "Editar dispositivo #$id";
-$pageHeader = "Editar dispositivo";
-$activePage = "";
-
-include __DIR__ . '/../../layout.php';
+</body>
+</html>

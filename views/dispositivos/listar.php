@@ -40,7 +40,7 @@ ob_start();
   <a href="registro.php" class="btn btn-primary"><i class="fas fa-plus"></i> Registrar nuevo dispositivo</a>
 </div>
 
-<table class="table table-striped table-bordered text-center align-middle">
+<table class="table-responsive table table-striped table-bordered text-center align-middle">
   <thead class="table-primary">
     <tr>
       <th>ID</th>
