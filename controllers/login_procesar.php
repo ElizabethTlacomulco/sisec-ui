@@ -12,30 +12,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
-    // Buscar al usuario por nombre completo y traer rol
-    $stmt = $pdo->prepare("SELECT id, nombre, rol, clave FROM usuarios WHERE nombre = ?");
+    // Traer también la foto del usuario
+    $stmt = $pdo->prepare("SELECT id, nombre, rol, clave, foto FROM usuarios WHERE nombre = ?");
     $stmt->execute([$nombre]);
     $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if ($usuario && password_verify($password, $usuario['clave'])) {
         $_SESSION['usuario_id'] = $usuario['id'];
-        $_SESSION['usuario_nombre'] = $usuario['nombre'];
+        $_SESSION['nombre'] = $usuario['nombre'];
         $_SESSION['usuario_rol'] = $usuario['rol'];
+        $_SESSION['foto'] = !empty($usuario['foto']) 
+            ? '/sisec-ui/uploads/usuarios/' . $usuario['foto'] 
+            : null;
 
         if ($remember) {
             setcookie('usuario_id', $usuario['id'], time() + (7 * 24 * 60 * 60), "/");
         }
 
         $redirect = $_GET['redirect'] ?? $_POST['redirect'] ?? '';
-
         if ($redirect) {
             $redirect = urldecode($redirect);
         } else {
-            if ($usuario['rol'] === 'Invitado') {
-                $redirect = '/sisec-ui/views/dispositivos/listar.php';
-            } else {
-                $redirect = '/sisec-ui/index.php';
-            }
+            $redirect = ($usuario['rol'] === 'Invitado') 
+                ? '/sisec-ui/views/dispositivos/listar.php'
+                : '/sisec-ui/index.php';
         }
 
         header("Location: $redirect");
@@ -48,3 +48,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     header('Location: ../login.php');
     exit;
 }
+

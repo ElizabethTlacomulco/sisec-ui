@@ -2,7 +2,7 @@
 
 require_once __DIR__ . '/../../includes/auth.php';
 verificarAutenticacion(); // 1️⃣ Verifica si hay sesión iniciada
-verificarRol(['Admin', 'Técnico', 'Invitado']);
+verificarRol(['Administrador', 'Técnico', 'Invitado']);
 
 // session_start(); //
 include __DIR__ . '/../../includes/db.php';
@@ -43,7 +43,7 @@ ob_start();
     <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i> Buscar</button>
   </form>
 
-  <?php if (in_array($_SESSION['usuario_rol'], ['Admin', 'Técnico'])): ?>
+  <?php if (in_array($_SESSION['usuario_rol'], ['Administrador', 'Técnico'])): ?>
     <a href="registro.php" class="btn btn-primary"><i class="fas fa-plus"></i> Registrar nuevo dispositivo</a>
   <?php endif; ?>
 </div>
@@ -75,15 +75,15 @@ ob_start();
         <i class="fas fa-eye"></i> Ver
       </a>
 
-      <!-- Botón editar: solo admin y técnico -->
-      <?php if (in_array($_SESSION['usuario_rol'], ['Admin', 'Técnico'])): ?>
+      <!-- Botón editar: solo Administrador y técnico -->
+      <?php if (in_array($_SESSION['usuario_rol'], ['Administrador', 'Técnico'])): ?>
         <a href="editar.php?id=<?= $device['id'] ?>" class="btn btn-sm btn-secondary">
           <i class="fa-regular fa-pen-to-square"></i> Editar
         </a>
       <?php endif; ?>
 
-      <!-- Botón eliminar: solo admin -->
-      <?php if ($_SESSION['usuario_rol'] === 'Admin'): ?>
+      <!-- Botón eliminar: solo Administrador -->
+      <?php if ($_SESSION['usuario_rol'] === 'Administrador'): ?>
         <button 
             class="btn btn-sm btn-danger" 
             data-bs-toggle="modal" 
@@ -100,7 +100,7 @@ ob_start();
   </tbody>
 </table>
 
-<?php if ($_SESSION['usuario_rol'] === 'Admin'): ?>
+<?php if ($_SESSION['usuario_rol'] === 'Administrador'): ?>
   <!-- Modal de Confirmación -->
   <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
