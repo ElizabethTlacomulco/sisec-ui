@@ -1,38 +1,59 @@
 <?php
 require_once __DIR__ . '/../../includes/auth.php';
-verificarAutenticacion(); // Verifica sesión iniciada
+verificarAutenticacion();
 
-$pageTitle = "Mi perfil";
-$pageHeader = "Perfil de usuario";
+require_once __DIR__ . '/../../includes/db.php';
+
+$usuarioId = $_SESSION['usuario_id'];
+
+$stmt = $conn->prepare("SELECT nombre, rol, foto FROM usuarios WHERE id = ?");
+$stmt->bind_param("i", $usuarioId);
+$stmt->execute();
+$result = $stmt->get_result();
+$usuario = $result->fetch_assoc();
+?>
+
+<?php
+$pageTitle = "Perfil de usuario";
+$pageHeader = "Mi perfil";
 $activePage = "perfil";
 
 ob_start();
 ?>
 
-<div class="container">
-  <div class="row justify-content-center">
-    <div class="col-md-6 col-lg-5">
-      <div class="card shadow-sm p-4">
-        <h4 class="mb-3 text-center">Mi perfil</h4>
+<div class="card mx-auto shadow-sm" style="max-width: 600px;">
+  <div class="card-body">
+    <h5 class="text-center mb-3"></h5>
 
-        <div class="text-center mb-3">
-          <?php if (!empty($_SESSION['foto'])): ?>
-            <img src="<?= htmlspecialchars($_SESSION['foto']) ?>" class="rounded-circle" width="100" height="100" alt="Foto de perfil">
-          <?php else: ?>
-            <i class="fas fa-user-circle fa-5x text-secondary"></i>
-          <?php endif; ?>
-        </div>
+    <form action="actualizar_perfil.php" method="POST" enctype="multipart/form-data">
+      <input type="hidden" name="id" value="<?= $usuarioId ?>">
 
-        <p><strong>Nombre:</strong> <?= htmlspecialchars($_SESSION['usuario_nombre']) ?></p>
-        <p><strong>Rol:</strong> <?= htmlspecialchars($_SESSION['usuario_rol']) ?></p>
-
-        <div class="text-center mt-4">
-          <a href="/sisec-ui/views/usuarios/editar_perfil.php" class="btn btn-primary">
-            <i class="fas fa-edit me-1"></i> Editar perfil
-          </a>
-        </div>
+      <div class="text-center mb-3">
+        <img src="/sisec-ui/uploads/usuarios/<?= htmlspecialchars($usuario['foto']) ?>"
+          alt="Foto de perfil"
+          class="rounded-circle mb-3"
+          style="width: 100px; height: 100px; object-fit: cover;">
       </div>
-    </div>
+
+      <div class="mb-3">
+        <label class="form-label">Nombre</label>
+        <input type="text" name="nombre" class="form-control" value="<?= htmlspecialchars($usuario['nombre']) ?>" required>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Foto de perfil (opcional)</label>
+        <input type="file" name="foto" class="form-control">
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Nueva contraseña (opcional)</label>
+        <input type="password" name="password" class="form-control" placeholder="Deja en blanco para no cambiarla">
+      </div>
+
+      <div class="d-grid">
+        <button type="submit" class="btn btn-primary">Guardar cambios</button>
+      </div>
+    </form>
   </div>
 </div>
 

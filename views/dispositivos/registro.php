@@ -20,8 +20,14 @@ ob_start(); // Inicia el buffer
       <select name="tipo" class="form-select" required>
         <option value="">Selecciona</option>
         <option value="Cámara">Cámara</option>
-        <option value="Sensor">Sensor</option>
+        <option value="Sensor">Sensor de movimiento</option>
         <option value="Detector de humo">Detector de humo</option>
+        <option value="NVR's">NVR's</option>
+        <option value="DVR's">DVR's</option>
+        <option value="VMS's">VMS's</option>
+        <option value="Switch">Switch</option>
+        <option value="Conmutador">Conmutador</option>
+        <option value="Racks">Racks</option>
       </select>
     </div>
 

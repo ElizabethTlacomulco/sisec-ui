@@ -168,9 +168,9 @@
 
       <!-- Dropdown usuario -->
       <div class="dropdown">
-        <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-          <?php if (!empty($_SESSION['foto'])): ?>
-            <img src="<?= htmlspecialchars($_SESSION['foto']) ?>" alt="foto" width="40" height="40" class="rounded-circle">
+        <a href="/views/perfil.php" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+          <?php if (!empty($u['foto']) && file_exists(__DIR__ . "/../../uploads/usuarios/" . $u['foto'])): ?>
+            <img src="/sisec-ui/uploads/usuarios/<?= htmlspecialchars($u['foto']) ?>" alt="foto" width="40" height="40" class="rounded-circle">
           <?php else: ?>
             <i class="fas fa-user-circle fa-2x text-secondary"></i>
           <?php endif; ?>
@@ -178,7 +178,7 @@
           <span class="user-name d-none d-sm-inline"><?= htmlspecialchars($_SESSION['nombre'] ?? 'Usuario') ?></span>
         </a>
         <ul class="dropdown-menu dropdown-menu-end">
-          <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i>Perfil</a></li>
+          <a class="dropdown-item" href="/sisec-ui/views/usuarios/perfil.php"><i class="fas fa-user me-2"></i>Perfil</a>
           <li><a class="dropdown-item" href="/sisec-ui/logout.php"><i class="fas fa-sign-out-alt me-2"></i>Cerrar sesión</a></li>
         </ul>
       </div>

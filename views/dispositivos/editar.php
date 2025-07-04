@@ -36,8 +36,14 @@ ob_start();
     <label class="form-label">Tipo</label>
     <select type="tipo" name="tipo" class="form-select" required>
       <option value="Camara" <?= $device['tipo'] == 'Camara' ? 'selected' : '' ?>>Camara</option>
-      <option value="Alarma" <?= $device['tipo'] == 'Alarma' ? 'selected' : '' ?>>Alarma</option>
-      <option value="Sensor de humo" <?= $device['tipo'] == 'Sensor de humo' ? 'selected' : '' ?>>Sensor de humo</option>
+      <option value="Sensores de movimiento" <?= $device['tipo'] == 'Sensores de movimiento' ? 'selected' : '' ?>>Sensores de movimiento</option>
+      <option value="Detectores de humo" <?= $device['tipo'] == 'Detectores de humo' ? 'selected' : '' ?>>Detectores de humo</option>
+      <option value="NVR's" <?= $device['tipo'] == "NVR's" ? 'selected' : '' ?>>NVR's</option>
+      <option value="DVR's" <?= $device['tipo'] == "DVR's" ? 'selected' : '' ?>>DVR's</option>
+      <option value="VMS's" <?= $device['tipo'] == "VMS's" ? 'selected' : '' ?>>VMS's</option>
+      <option value="Switch" <?= $device['tipo'] == "Switch" ? 'selected' : '' ?>>Switch</option>
+      <option value="Conmutador" <?= $device['tipo'] == "Conmutador" ? 'selected' : '' ?>>Conmutador</option>
+      <option value="Rack" <?= $device['tipo'] == "Rack" ? 'selected' : '' ?>>Rack</option>
     </select>
   </div>
 
