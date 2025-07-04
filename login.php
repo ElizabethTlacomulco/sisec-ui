@@ -1,10 +1,14 @@
 <?php
-session_start();
+
+// Si ya hay sesión iniciada, redirige al index
 if (isset($_SESSION['usuario_id'])) {
   header('Location: views/index.php');
   exit;
 }
+
+// Inicializa variables para evitar errores
 $error = $_GET['error'] ?? null;
+$redirect = $_GET['redirect'] ?? null;
 ?>
 
 <!DOCTYPE html>
@@ -20,7 +24,7 @@ $error = $_GET['error'] ?? null;
       font-family: Arial, sans-serif;
       min-height: 100vh;
       margin: 0;
-      display: flex;
+      display: flex;  
       align-items: center;
       justify-content: center;
       padding: 1rem;
@@ -90,6 +94,10 @@ $error = $_GET['error'] ?? null;
     <form action="controllers/login_procesar.php" method="POST">
       <input type="text" name="nombre" placeholder="Usuario" required>
       <input type="password" name="password" placeholder="Contraseña" required>
+
+      <?php if ($redirect): ?>
+        <input type="hidden" name="redirect" value="<?= htmlspecialchars($redirect) ?>">
+      <?php endif; ?>
 
       <div class="form-check">
         <input class="form-check-input" type="checkbox" name="remember_me" id="remember_me">

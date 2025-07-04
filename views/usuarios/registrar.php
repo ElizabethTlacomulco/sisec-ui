@@ -1,6 +1,8 @@
 <?php
 
-session_start();
+require_once __DIR__ . '/../../includes/auth.php';
+verificarAutenticacion(); // 1️⃣ Verifica si hay sesión iniciada
+verificarRol(['Admin']);
 
 $pageTitle = "Registrar usuario";
 $pageHeader = "Nuevo usuario";

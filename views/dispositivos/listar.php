@@ -1,5 +1,10 @@
 <?php 
-session_start(); //
+
+require_once __DIR__ . '/../../includes/auth.php';
+verificarAutenticacion(); // 1️⃣ Verifica si hay sesión iniciada
+verificarRol(['Admin', 'Técnico', 'Invitado']);
+
+// session_start(); //
 include __DIR__ . '/../../includes/db.php';
 
 $search = isset($_GET['search']) ? trim($_GET['search']) : '';
@@ -38,7 +43,9 @@ ob_start();
     <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i> Buscar</button>
   </form>
 
-  <a href="registro.php" class="btn btn-primary"><i class="fas fa-plus"></i> Registrar nuevo dispositivo</a>
+  <?php if (in_array($_SESSION['usuario_rol'], ['Admin', 'Técnico'])): ?>
+    <a href="registro.php" class="btn btn-primary"><i class="fas fa-plus"></i> Registrar nuevo dispositivo</a>
+  <?php endif; ?>
 </div>
 
 <table class="table-responsive table table-striped table-bordered text-center align-middle">
@@ -63,12 +70,20 @@ ob_start();
       <td><?= htmlspecialchars($device['estado']) ?></td>
       <td><?= htmlspecialchars($device['fecha']) ?></td>
       <td>
-        <a href="device.php?id=<?= $device['id'] ?>" class="btn btn-sm btn-primary">
-          <i class="fas fa-eye"></i> Ver
-        </a>
+      <!-- Botón ver: siempre visible -->
+      <a href="device.php?id=<?= $device['id'] ?>" class="btn btn-sm btn-primary">
+        <i class="fas fa-eye"></i> Ver
+      </a>
+
+      <!-- Botón editar: solo admin y técnico -->
+      <?php if (in_array($_SESSION['usuario_rol'], ['Admin', 'Técnico'])): ?>
         <a href="editar.php?id=<?= $device['id'] ?>" class="btn btn-sm btn-secondary">
           <i class="fa-regular fa-pen-to-square"></i> Editar
         </a>
+      <?php endif; ?>
+
+      <!-- Botón eliminar: solo admin -->
+      <?php if ($_SESSION['usuario_rol'] === 'Admin'): ?>
         <button 
             class="btn btn-sm btn-danger" 
             data-bs-toggle="modal" 
@@ -77,34 +92,50 @@ ob_start();
         >
           <i class="fas fa-trash-alt"></i> Eliminar
         </button>
+      <?php endif; ?>
+
       </td>
     </tr>
     <?php endwhile; ?>
   </tbody>
 </table>
 
-<!-- Modal de Confirmación -->
-<div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      
-      <div class="modal-header">
-        <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmar eliminación</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-      </div>
+<?php if ($_SESSION['usuario_rol'] === 'Admin'): ?>
+  <!-- Modal de Confirmación -->
+  <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        
+        <div class="modal-header">
+          <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmar eliminación</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
 
-      <div class="modal-body">
-        ¿Estás segura(o) de que deseas eliminar este dispositivo?
-      </div>
+        <div class="modal-body">
+          ¿Estás segura(o) de que deseas eliminar este dispositivo?
+        </div>
 
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-        <a href="#" id="deleteLink" class="btn btn-danger">Eliminar</a>
-      </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <a href="#" id="deleteLink" class="btn btn-danger">Eliminar</a>
+        </div>
 
+      </div>
     </div>
   </div>
-</div>
+
+  <script>
+    var deleteModal = document.getElementById('confirmDeleteModal');
+    deleteModal.addEventListener('show.bs.modal', function (event) {
+      var button = event.relatedTarget;
+      var deviceId = button.getAttribute('data-id');
+
+      var deleteLink = deleteModal.querySelector('#deleteLink');
+      deleteLink.href = 'eliminar.php?id=' + deviceId;
+    });
+  </script>
+<?php endif; ?>
+
 
 <script>
   var deleteModal = document.getElementById('confirmDeleteModal');

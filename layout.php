@@ -115,11 +115,17 @@
   <div class="sidebar d-none d-md-flex flex-column justify-content-between">
     <div>
       <h4><i class="fas fa-user-circle"></i> SISEC</h4>
-      <a href="/sisec-ui/views/inicio/index.php" class="<?= ($activePage ?? '') === 'inicio' ? 'active' : '' ?>"><i class="fas fa-home"></i> Inicio</a>
-      <a href="/sisec-ui/views/dispositivos/listar.php" class="<?= ($activePage ?? '') === 'dispositivos' ? 'active' : '' ?>"><i class="fas fa-camera"></i> Dispositivos</a>
-      <a href="/sisec-ui/views/dispositivos/registro.php" class="<?= ($activePage ?? '') === 'registro' ? 'active' : '' ?>"><i class="fas fa-plus-circle"></i> Registrar dispositivo</a>
-      <a href="/sisec-ui/views/usuarios/index.php" class="<?= ($activePage ?? '') === 'usuarios' ? 'active' : '' ?>"><i class="fa-solid fa-users"></i> Usuarios</a>
-      <a href="/sisec-ui/views/usuarios/registrar.php" class="<?= ($activePage ?? '') === 'registrar' ? 'active' : '' ?>"><i class="fa-solid fa-user-plus"></i> Registrar usuario</a>
+      <?php if (in_array($_SESSION['usuario_rol'], ['Admin', 'Técnico'])): ?>
+        <a href="/sisec-ui/views/inicio/index.php" class="<?= ($activePage ?? '') === 'inicio' ? 'active' : '' ?>"><i class="fas fa-home"></i> Inicio</a>
+      <?php endif; ?>
+        <a href="/sisec-ui/views/dispositivos/listar.php" class="<?= ($activePage ?? '') === 'dispositivos' ? 'active' : '' ?>"><i class="fas fa-camera"></i> Dispositivos</a>
+      <?php if (in_array($_SESSION['usuario_rol'], ['Admin', 'Técnico'])): ?>
+        <a href="/sisec-ui/views/dispositivos/registro.php" class="<?= ($activePage ?? '') === 'registro' ? 'active' : '' ?>"><i class="fas fa-plus-circle"></i> Registrar dispositivo</a>
+      <?php endif; ?>
+      <?php if ($_SESSION['usuario_rol'] === 'Admin'): ?>
+        <a href="/sisec-ui/views/usuarios/index.php" class="<?= ($activePage ?? '') === 'usuarios' ? 'active' : '' ?>"><i class="fa-solid fa-users"></i> Usuarios</a>
+        <a href="/sisec-ui/views/usuarios/registrar.php" class="<?= ($activePage ?? '') === 'registrar' ? 'active' : '' ?>"><i class="fa-solid fa-user-plus"></i> Registrar usuario</a>
+      <?php endif; ?>
     </div>
     <?php if (isset($_SESSION['usuario_id'])): ?>
       <div class="mt-auto">
@@ -143,11 +149,29 @@
     </div>
     <div class="offcanvas-body d-flex flex-column justify-content-between">
       <div>
-        <a href="/sisec-ui/views/inicio/index.php" class="d-block mb-2 text-dark text-decoration-none"><i class="fas fa-home me-2"></i>Inicio</a>
-        <a href="/sisec-ui/views/dispositivos/listar.php" class="d-block mb-2 text-dark text-decoration-none"><i class="fas fa-camera me-2"></i>Dispositivos</a>
-        <a href="/sisec-ui/views/dispositivos/registro.php" class="d-block mb-2 text-dark text-decoration-none"><i class="fas fa-plus-circle me-2"></i>Registrar dispositivo</a>
-        <a href="/sisec-ui/views/usuarios/index.php" class="d-block mb-2 text-dark text-decoration-none"><i class="fa-solid fa-users me-2"></i>Usuarios</a>
-        <a href="/sisec-ui/views/usuarios/registrar.php" class="d-block mb-2 text-dark text-decoration-none"><i class="fa-solid fa-user-plus me-2"></i>Registrar usuario</a>
+        <?php if (in_array($_SESSION['usuario_rol'], ['Admin', 'Técnico'])): ?>
+          <a href="/sisec-ui/views/inicio/index.php" 
+            class="d-block mb-2 text-dark text-decoration-none <?= ($activePage ?? '') === 'inicio' ? 'active' : '' ?>">
+            <i class="fas fa-home me-2"></i>Inicio
+          </a>
+        <?php endif; ?>
+
+        <a href="/sisec-ui/views/dispositivos/listar.php" 
+          class="d-block mb-2 text-dark text-decoration-none <?= ($activePage ?? '') === 'dispositivos' ? 'active' : '' ?>">
+          <i class="fas fa-camera me-2"></i>Dispositivos
+        </a>
+
+        <?php if (in_array($_SESSION['usuario_rol'], ['Admin', 'Técnico'])): ?>
+          <a href="/sisec-ui/views/dispositivos/registro.php" 
+            class="d-block mb-2 text-dark text-decoration-none <?= ($activePage ?? '') === 'registro' ? 'active' : '' ?>">
+            <i class="fas fa-plus-circle me-2"></i>Registrar dispositivo
+          </a>
+        <?php endif; ?>
+
+        <?php if ($_SESSION['usuario_rol'] === 'Admin'): ?>
+          <a href="/sisec-ui/views/usuarios/index.php" class="d-block mb-2 text-dark text-decoration-none"><i class="fa-solid fa-users me-2"></i>Usuarios</a>
+          <a href="/sisec-ui/views/usuarios/registrar.php" class="d-block mb-2 text-dark text-decoration-none"><i class="fa-solid fa-user-plus me-2"></i>Registrar usuario</a>
+        <?php endif; ?>
       </div>
       <?php if (isset($_SESSION['usuario_id'])): ?>
         <div class="mt-3">

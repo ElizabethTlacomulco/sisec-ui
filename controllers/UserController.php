@@ -10,7 +10,6 @@ switch ($accion) {
       $clave = password_hash($_POST['clave'], PASSWORD_DEFAULT);
       $rol = $conexion->real_escape_string($_POST['rol']);
 
-      // Procesar foto si se subió
       $fotoNombre = null;
       if (isset($_FILES['foto']) && $_FILES['foto']['error'] === UPLOAD_ERR_OK) {
         $ext = pathinfo($_FILES['foto']['name'], PATHINFO_EXTENSION);
@@ -36,12 +35,42 @@ switch ($accion) {
       $id = intval($_POST['id']);
       $nombre = $conexion->real_escape_string($_POST['nombre']);
       $rol = $conexion->real_escape_string($_POST['rol']);
+      $clave = $_POST['clave'] ?? '';
 
-      // Puedes permitir actualizar foto y/o clave si deseas
-      $stmt = $conexion->prepare("UPDATE usuarios SET nombre = ?, rol = ? WHERE id = ?");
-      $stmt->bind_param("ssi", $nombre, $rol, $id);
+      // Obtener datos actuales del usuario
+      $res = $conexion->query("SELECT foto FROM usuarios WHERE id = $id");
+      $usuario = $res->fetch_assoc();
+
+      $fotoNombre = $usuario['foto'] ?? null;
+
+      // Actualizar foto si se subió nueva
+      if (isset($_FILES['foto']) && $_FILES['foto']['error'] === UPLOAD_ERR_OK) {
+        $ext = pathinfo($_FILES['foto']['name'], PATHINFO_EXTENSION);
+        $fotoNombre = uniqid('usr_') . '.' . $ext;
+        $rutaDestino = __DIR__ . '/../uploads/usuarios/' . $fotoNombre;
+
+        // Eliminar la foto anterior
+        if (!empty($usuario['foto'])) {
+          $fotoAntigua = __DIR__ . '/../uploads/usuarios/' . $usuario['foto'];
+          if (file_exists($fotoAntigua)) {
+            unlink($fotoAntigua);
+          }
+        }
+
+        move_uploaded_file($_FILES['foto']['tmp_name'], $rutaDestino);
+      }
+
+      // Si se envía contraseña nueva
+      if (!empty($clave)) {
+        $claveHash = password_hash($clave, PASSWORD_DEFAULT);
+        $stmt = $conexion->prepare("UPDATE usuarios SET nombre = ?, rol = ?, clave = ?, foto = ? WHERE id = ?");
+        $stmt->bind_param("ssssi", $nombre, $rol, $claveHash, $fotoNombre, $id);
+      } else {
+        $stmt = $conexion->prepare("UPDATE usuarios SET nombre = ?, rol = ?, foto = ? WHERE id = ?");
+        $stmt->bind_param("sssi", $nombre, $rol, $fotoNombre, $id);
+      }
+
       $stmt->execute();
-
       header("Location: ../views/usuarios/index.php?msg=Usuario actualizado");
       exit;
     }
@@ -72,4 +101,3 @@ switch ($accion) {
     die("Acción no válida.");
 }
 ?>
-
