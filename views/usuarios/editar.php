@@ -47,7 +47,7 @@ ob_start();
       <label for="rol" class="form-label">Rol</label>
       <select class="form-select" id="rol" name="rol" required>
         <option value="">Seleccione un rol</option>
-        <option value="Administrador"<?= $usuario['rol'] == 'Administradoristrador' ? 'selected' : '' ?>>Administrador</option>
+        <option value="Administrador"<?= $usuario['rol'] == 'Administrador' ? 'selected' : '' ?>>Administrador</option>
         <option value="Técnico" <?= $usuario['rol'] == 'Técnico' ? 'selected' : '' ?>>Técnico</option>
         <option value="Invitado" <?= $usuario['rol'] == 'Invitado' ? 'selected' : '' ?>>Invitado</option>
       </select>
