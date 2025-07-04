@@ -1,4 +1,7 @@
 <?php
+
+session_start(); //
+
 ob_start(); // Inicia el buffer
 ?>
 

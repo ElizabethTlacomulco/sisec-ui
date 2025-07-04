@@ -1,7 +1,10 @@
 <?php
+
+session_start();
+
 $pageTitle = "Registrar usuario";
 $pageHeader = "Nuevo usuario";
-$activePage = "usuarios";
+$activePage = "registrar";
 
 ob_start();
 ?>

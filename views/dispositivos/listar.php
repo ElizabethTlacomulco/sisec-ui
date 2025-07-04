@@ -1,4 +1,5 @@
 <?php 
+session_start(); //
 include __DIR__ . '/../../includes/db.php';
 
 $search = isset($_GET['search']) ? trim($_GET['search']) : '';

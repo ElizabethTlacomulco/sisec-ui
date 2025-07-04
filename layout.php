@@ -119,7 +119,7 @@
       <a href="/sisec-ui/views/dispositivos/listar.php" class="<?= ($activePage ?? '') === 'dispositivos' ? 'active' : '' ?>"><i class="fas fa-camera"></i> Dispositivos</a>
       <a href="/sisec-ui/views/dispositivos/registro.php" class="<?= ($activePage ?? '') === 'registro' ? 'active' : '' ?>"><i class="fas fa-plus-circle"></i> Registrar dispositivo</a>
       <a href="/sisec-ui/views/usuarios/index.php" class="<?= ($activePage ?? '') === 'usuarios' ? 'active' : '' ?>"><i class="fa-solid fa-users"></i> Usuarios</a>
-      <a href="/sisec-ui/views/usuarios/registrar.php" class="<?= ($activePage ?? '') === 'reportes' ? 'active' : '' ?>"><i class="fa-solid fa-user-plus"></i> Registrar usuario</a>
+      <a href="/sisec-ui/views/usuarios/registrar.php" class="<?= ($activePage ?? '') === 'registrar' ? 'active' : '' ?>"><i class="fa-solid fa-user-plus"></i> Registrar usuario</a>
     </div>
     <?php if (isset($_SESSION['usuario_id'])): ?>
       <div class="mt-auto">
