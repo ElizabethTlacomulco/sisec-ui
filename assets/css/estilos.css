@@ -1,0 +1,137 @@
+body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f9f9f9;
+    }
+
+    /* Topbar fijo */
+    .topbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 60px;
+      background: linear-gradient(to right, #20c6c6, #1a9e9e);
+      color: white;
+      border-bottom: 1px solid #ccc;
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 1040;
+      width: 100%;
+    }
+
+    /* Sidebar fijo desktop */
+    .sidebar {
+      width: 220px;
+      top: 60px;
+      height: calc(100vh - 60px);
+      background-color: #fff;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      padding: 20px 0;
+      position: fixed;
+      z-index: 1030;
+      border-right: 1px solid #ddd;
+    }
+
+    .sidebar h4 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #20c6c6;
+    }
+
+    .sidebar a {
+      color: #333;
+      padding: 12px 20px;
+      display: block;
+      text-decoration: none;
+      transition: background 0.3s;
+    }
+
+    .sidebar a:hover,
+    .sidebar a.active {
+      background-color: #f0f0f0;
+    }
+
+    .sidebar i {
+      margin-right: 10px;
+    }
+
+    /* Contenido principal */
+    main.main {
+      margin-left: 220px;
+      padding: 30px;
+      padding-top: 80px; /* para no quedar debajo del topbar */
+      min-height: 100vh;
+      background-color: #f9f9f9;
+    }
+
+    /* Iconos y foto en topbar */
+    .topbar .topbar-icons {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      margin-right: 20px; 
+    }
+
+    .topbar .topbar-icons i {
+      font-size: 1.25rem;
+      cursor: pointer;
+      color: white;
+      position: relative;
+    }
+
+    /* Burbuja roja notificación */
+    .topbar .topbar-icons .notification-badge {
+      position: absolute;
+      top: 0;
+      right: -6px;
+      width: 10px;
+      height: 10px;
+      background: #dc3545;
+      border-radius: 50%;
+      border: 1.5px solid white;
+    }
+
+    /* Foto de usuario */
+    .topbar .user-photo {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 2px solid #eee;
+      overflow: hidden;
+      margin-right: 8px;
+      margin-left: 20px;
+    }
+
+    .topbar .user-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Ocultar texto usuario en pantallas xs */
+    .topbar .user-name {
+      color: white;
+      font-weight: 500;
+    }
+    .topbar .user-name.d-none.d-sm-inline {
+      display: none;
+    }
+    @media (min-width: 576px) {
+      .topbar .user-name.d-none.d-sm-inline {
+        display: inline;
+      }
+    }
+
+    /* Sidebar solo desktop */
+    @media (max-width: 767.98px) {
+      .sidebar {
+        display: none !important;
+      }
+
+      main.main {
+        margin-left: 0;
+      }
+}
