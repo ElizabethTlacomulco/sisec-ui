@@ -10,16 +10,16 @@ include __DIR__ . '/../../includes/db.php';
 ob_start();
 
 // Consultas reales a la base de datos
-$camaras = $conn->query("SELECT COUNT(*) AS total FROM dispositivos WHERE tipo = 'Camara'")->fetch_assoc()['total'];
-$sensores = $conn->query("SELECT COUNT(*) AS total FROM dispositivos WHERE tipo = 'Sensor'")->fetch_assoc()['total'];
+$camaras = $conn->query("SELECT COUNT(*) AS total FROM dispositivos WHERE equipo = 'Camara'")->fetch_assoc()['total'];
+$sensores = $conn->query("SELECT COUNT(*) AS total FROM dispositivos WHERE equipo = 'Sensor'")->fetch_assoc()['total'];
 $usuarios = $conn->query("SELECT COUNT(*) AS total FROM usuarios")->fetch_assoc()['total'] ?? 0;
 $mantenimiento = $conn->query("SELECT COUNT(*) AS total FROM dispositivos WHERE estado = 'En mantenimiento'")->fetch_assoc()['total'];
 
-// Dispositivos por tipo
-$tipos_result = $conn->query("SELECT tipo, COUNT(*) as cantidad FROM dispositivos GROUP BY tipo");
-$tipos_dispositivos = [];
-while ($row = $tipos_result->fetch_assoc()) {
-    $tipos_dispositivos[$row['tipo']] = (int)$row['cantidad'];
+// Dispositivos por equipo
+$equipos_result = $conn->query("SELECT equipo, COUNT(*) as cantidad FROM dispositivos GROUP BY equipo");
+$equipos_dispositivos = [];
+while ($row = $equipos_result->fetch_assoc()) {
+    $equipos_dispositivos[$row['equipo']] = (int)$row['cantidad'];
 }
 
 // Actividad de los últimos 7 días (simulado por ahora)
@@ -73,7 +73,7 @@ $actividad = [27, 17, 16, 28, 13, 4, 0];
   <div class="col-md-6">
     <div class="card shadow-sm">
       <div class="card-body">
-        <h6 class="card-title mb-3">Dispositivos por tipo</h6>
+        <h6 class="card-title mb-3">Dispositivos por equipo</h6>
         <canvas id="chartDispositivos" height="200"></canvas>
       </div>
     </div>
@@ -111,10 +111,10 @@ $actividad = [27, 17, 16, 28, 13, 4, 0];
   new Chart(ctx1, {
     type: 'bar',
     data: {
-      labels: <?= json_encode(array_keys($tipos_dispositivos)) ?>,
+      labels: <?= json_encode(array_keys($equipos_dispositivos)) ?>,
       datasets: [{
         label: 'Cantidad',
-        data: <?= json_encode(array_values($tipos_dispositivos)) ?>,
+        data: <?= json_encode(array_values($equipos_dispositivos)) ?>,
         backgroundColor: '#4aa3df'
       }]
     },

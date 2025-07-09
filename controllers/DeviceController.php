@@ -7,7 +7,7 @@ $accion = $_REQUEST['accion'] ?? '';
 switch ($accion) {
   case 'crear':
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-      $tipo = $conexion->real_escape_string($_POST['tipo']);
+      $equipo = $conexion->real_escape_string($_POST['equipo']);
       $modelo = $conexion->real_escape_string($_POST['modelo']);
       $sucursal = $conexion->real_escape_string($_POST['sucursal']);
       $estado = $conexion->real_escape_string($_POST['estado']);
@@ -33,8 +33,8 @@ switch ($accion) {
       }
 
       // Guardar en base de datos sin QR aún
-      $sql = "INSERT INTO dispositivos (tipo, modelo, sucursal, estado, fecha, observaciones, imagen, imagen2)
-              VALUES ('$tipo', '$modelo', '$sucursal', '$estado', '$fecha', '$observaciones', " .
+      $sql = "INSERT INTO dispositivos (equipo, modelo, sucursal, estado, fecha, observaciones, imagen, imagen2)
+              VALUES ('$equipo', '$modelo', '$sucursal', '$estado', '$fecha', '$observaciones', " .
               ($imagen ? "'$imagen'" : "NULL") . ", " .
               ($imagen2 ? "'$imagen2'" : "NULL") . ")";
 

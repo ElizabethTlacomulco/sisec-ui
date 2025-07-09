@@ -1,35 +1,28 @@
 <?php
-
 require_once __DIR__ . '/../../includes/auth.php';
-verificarAutenticacion(); // 1️⃣ Verifica si hay sesión iniciada
+verificarAutenticacion();
 verificarRol(['Administrador', 'Técnico']);
 
-// session_start(); 
+ob_start();
 
-ob_start(); // Inicia el buffer
+$equipo = $_GET['equipo'] ?? 'camara'; // Valor por defecto
+
 ?>
 
-<h2 class="mb-4">Registrar nuevo dispositivo</h2>
+<h2 class="mb-4">Registrar cámara</h2>
 
 <form action="guardar.php" method="post" enctype="multipart/form-data" class="p-4" style="max-width: 950px; margin: auto;">
   <div class="row g-4">
 
-    <!-- Tipo y Fecha -->
+    <!-- Equipo y Fecha -->
     <div class="col-md-3">
-      <label class="form-label">Tipo de dispositivo</label>
-      <select name="tipo" class="form-select" required>
-        <option value="">Selecciona</option>
-        <option value="Cámara">Cámara</option>
-        <option value="Sensor">Sensor de movimiento</option>
-        <option value="Detector de humo">Detector de humo</option>
-        <option value="NVR's">NVR's</option>
-        <option value="DVR's">DVR's</option>
-        <option value="VMS's">VMS's</option>
-        <option value="Switch">Switch</option>
-        <option value="Conmutador">Conmutador</option>
-        <option value="Racks">Racks</option>
-      </select>
+      <label class="form-label">Equipo</label>
+      <input type="text" class="form-control text-white" 
+            style="background-color:rgb(159, 191, 219); border: none; cursor: not-allowed;" 
+            value="<?= htmlspecialchars(ucfirst($equipo)) ?>" readonly>
+      <input type="hidden" name="equipo" value="<?= htmlspecialchars($equipo) ?>">
     </div>
+
 
     <div class="col-md-3">
       <label class="form-label">Fecha de instalación</label>
@@ -43,7 +36,7 @@ ob_start(); // Inicia el buffer
     </div>
 
     <div class="col-md-3">
-      <label class="form-label">Estado</label>
+      <label class="form-label">Estado del equipo</label>
       <select name="estado" class="form-select" required>
         <option value="">Selecciona</option>
         <option value="Activo">Activo</option>
@@ -54,7 +47,7 @@ ob_start(); // Inicia el buffer
 
     <!-- Sucursal y Observaciones -->
     <div class="col-md-6">
-      <label class="form-label">Sucursal</label>
+      <label class="form-label">Ubicación del equipo (Sucursal)</label>
       <input type="text" name="sucursal" placeholder="Escribe el lugar de la instalación" class="form-control" required>
     </div>
 
@@ -63,15 +56,68 @@ ob_start(); // Inicia el buffer
       <input type="text" name="observaciones" placeholder="Escribe alguna observación" class="form-control">
     </div>
 
-    <!-- Imagen principal -->
-    <div class="col-md-4">
-      <label class="form-label">Sube la imagen del dispositivo</label>
-        <input type="file" name="imagen" accept="image/*" class="form-control" required>
+    <!-- Serie y MAC -->
+    <div class="col-md-6">
+      <label class="form-label">Número de serie</label>
+      <input type="text" name="serie" placeholder="Escribe el número de serie" class="form-control">
     </div>
 
-    <!-- Archivo adjunto -->
+    <div class="col-md-6">
+      <label class="form-label">Dirección MAC</label>
+      <input type="text" name="mac" placeholder="00:11:22:33:44:55" class="form-control">
+    </div>
+
+    <div class="col-md-6">
+      <label class="form-label">No. de Servidor</label>
+      <input type="text" name="servidor" placeholder= "Escribe el numero de servidor" class="form-control" value="<?= htmlspecialchars($device['servidor'] ?? '') ?>">
+    </div>
+
+    <div class="col-md-6">
+      <label class="form-label">VMS</label>
+      <select name="vms" id="vms" class="form-select">
+        <option value="">Selecciona</option>
+        <option value="Avigilon" <?= ($device['vms'] ?? '') == 'Avigilon' ? 'selected' : '' ?>>Avigilon</option>
+        <option value="Milestone" <?= ($device['vms'] ?? '') == 'Milestone' ? 'selected' : '' ?>>Milestone</option>
+        <option value="Otro" <?= ($device['vms'] ?? '') == 'Otro' ? 'selected' : '' ?>>Otro</option>
+      </select>
+    </div>
+
+    <div class="col-md-6" id="vmsOtroDiv" style="display: none;">
+      <label class="form-label">Especifica VMS</label>
+      <input type="text" name="vms_otro" class="form-control" value="<?= htmlspecialchars($device['vms_otro'] ?? '') ?>">
+    </div>
+
+    <div class="col-md-6">
+      <label class="form-label">Switch</label>
+      <input type="text" name="switch" placeholder= "Escribe el switch" class="form-control" value="<?= htmlspecialchars($device['switch'] ?? '') ?>">
+    </div>
+
+    <div class="col-md-6">
+      <label class="form-label">Puerto</label>
+      <input type="text" name="puerto" placeholder= "Escribe el número de puerto del switch" class="form-control" value="<?= htmlspecialchars($device['puerto'] ?? '') ?>">
+    </div>
+
+    <!-- Área de la tienda -->
+    <div class="col-md-6">
+      <label class="form-label">Área de la tienda</label>
+      <select name="area" id="areaSelect" class="form-select" onchange="mostrarCampoOtro()" required>
+        <option value="">Selecciona</option>
+        <option value="Entrada">Entrada</option>
+        <option value="Pasillo">Pasillo</option>
+        <option value="Caja">Caja</option>
+        <option value="Almacén">Almacén</option>
+      </select>
+    </div>
+
+    <!-- Imagen principal -->
+    <div class="col-md-4">
+      <label class="form-label">Imagen del dispositivo</label>
+      <input type="file" name="imagen" accept="image/*" class="form-control" required>
+    </div>
+
+    <!-- Imagen secundaria -->
     <div class="col-md-12">
-      <label class="form-label">Archivos adjuntos</label>
+      <label class="form-label">Imagen adicional o evidencia</label>
       <div class="border border-2 rounded p-4 text-center" style="background-color: #f5f1f1; border-color: #b69df0;">
         <i class="fas fa-image fa-2x mb-2 text-muted"></i>
         <input type="file" name="imagen2" accept="image/*,application/image" class="form-control mt-2" required>
@@ -87,8 +133,42 @@ ob_start(); // Inicia el buffer
   </div>
 </form>
 
+<!-- JS para mostrar campo "Otro" -->
+<script>
+function mostrarCampoOtro() {
+  const select = document.getElementById('areaSelect');
+  const campoOtro = document.getElementById('campoOtro');
+  if (select.value === 'Otro') {
+    campoOtro.style.display = 'block';
+    campoOtro.querySelector('input').setAttribute('required', 'required');
+  } else {
+    campoOtro.style.display = 'none';
+    campoOtro.querySelector('input').removeAttribute('required');
+    campoOtro.querySelector('input').value = '';
+  }
+}
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const vmsSelect = document.getElementById('vms');
+  const vmsOtroDiv = document.getElementById('vmsOtroDiv');
+
+  function toggleVmsOtro() {
+    if (vmsSelect.value === 'Otro') {
+      vmsOtroDiv.style.display = 'block';
+    } else {
+      vmsOtroDiv.style.display = 'none';
+    }
+  }
+
+  vmsSelect.addEventListener('change', toggleVmsOtro);
+  toggleVmsOtro(); // Ejecutar al cargar
+});
+</script>
+
+
 <?php
-// Variables para el layout
 $content = ob_get_clean();
 $pageTitle = "Registrar dispositivo";
 $pageHeader = "Registro de dispositivo";

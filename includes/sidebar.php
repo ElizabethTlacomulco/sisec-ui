@@ -14,7 +14,7 @@
     </a>
 
     <?php if (in_array($_SESSION['usuario_rol'], ['Administrador', 'Técnico'])): ?>
-      <a href="/sisec-ui/views/dispositivos/registro.php" class="<?= ($activePage ?? '') === 'registro' ? 'active' : '' ?>">
+      <a href="/sisec-ui/views/dispositivos/elegir_dispositivo.php" class="<?= ($activePage ?? '') === 'registro' ? 'active' : '' ?>">
         <i class="fas fa-plus-circle"></i> Registrar dispositivo
       </a>
     <?php endif; ?>
