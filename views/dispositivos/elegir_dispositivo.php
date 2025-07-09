@@ -14,6 +14,8 @@ ob_start();
 
 <h2 class="mb-4">Selecciona el dispositivo que vas a registrar</h2>
 
+<br>
+
 <div class="container mt-4">
   <div class="row">
     <div class="col-md-8 offset-md-2">
