@@ -33,6 +33,7 @@ ob_start();
     <input type="text" class="form-control" id="nombre" name="nombre" value="<?= htmlspecialchars($usuario['nombre']) ?>" required>
   </div>
 
+<<<<<<< Updated upstream
   <div class="mb-3">
     <label for="rol" class="form-label">Rol</label>
     <select class="form-select" id="rol" name="rol" required>
@@ -42,6 +43,18 @@ ob_start();
       <option value="Invitado" <?= $usuario['rol'] === 'Invitado' ? 'selected' : '' ?>>Invitado</option>
     </select>
   </div>
+=======
+    <!-- Rol -->
+    <div class="mb-3">
+      <label for="rol" class="form-label">Rol</label>
+      <select class="form-select" id="rol" name="rol" required>
+        <option value="">Seleccione un rol</option>
+        <option value="Administrador"<?= $usuario['rol'] == 'Administrador' ? 'selected' : '' ?>>Administrador</option>
+        <option value="Mantenimientos" <?= $usuario['rol'] == 'Mantenimientos' ? 'selected' : '' ?>>Mantenimientos</option>
+        <option value="Invitado" <?= $usuario['rol'] == 'Invitado' ? 'selected' : '' ?>>Invitado</option>
+      </select>
+    </div>
+>>>>>>> Stashed changes
 
   <button type="submit" class="btn btn-primary">
     <i class="fas fa-save me-1"></i> Actualizar

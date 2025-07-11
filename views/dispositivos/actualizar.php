@@ -1,4 +1,12 @@
 <?php
+<<<<<<< Updated upstream
+=======
+
+require_once __DIR__ . '/../../includes/auth.php';
+verificarAutenticacion();
+verificarRol(['Administrador', 'Mantenimientos']);
+
+>>>>>>> Stashed changes
 include __DIR__ . '/../../includes/db.php';
 
 
@@ -39,6 +47,22 @@ if (!empty($_FILES['imagen']['name'])) {
 $update = $conn->prepare("UPDATE dispositivos SET tipo=?, modelo=?, sucursal=?, estado=?, fecha=?, observaciones=?, imagen=?, imagen=? WHERE id=?");
 $update->bind_param("ssssssssi", $tipo, $modelo, $sucursal, $estado, $fecha, $observaciones, $imagen, $imagen, $id);
 $update->execute();
+<<<<<<< Updated upstream
+=======
+$update->close();
+
+
+// ✅ REGISTRAR NOTIFICACIÓN si no es administrador
+if ($_SESSION['usuario_rol'] !== 'Administrador') {
+    $mensaje     = "El Mantenimientos " . $_SESSION['nombre'] . " modificó el dispositivo con ID #" . $id . ".";
+    $usuario_id  = $_SESSION['usuario_id'];
+
+    $stmtNotif = $conn->prepare("INSERT INTO notificaciones (usuario_id, mensaje, fecha, visto, dispositivo_id) VALUES (?, ?, NOW(), 0, ?)");
+    $stmtNotif->bind_param("isi", $usuario_id, $mensaje, $id);
+    $stmtNotif->execute();
+    $stmtNotif->close();
+}
+>>>>>>> Stashed changes
 
 // Redirigir a la vista del dispositivo
 header("Location: device.php?id=$id");

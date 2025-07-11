@@ -1,5 +1,12 @@
 <?php
 
+<<<<<<< Updated upstream
+=======
+require_once __DIR__ . '/../../includes/auth.php';
+verificarAutenticacion(); // 1️⃣ Verifica si hay sesión iniciada
+verificarRol(['Administrador', 'Mantenimientos']);
+
+>>>>>>> Stashed changes
 include __DIR__ . '/../../includes/db.php';
 
 

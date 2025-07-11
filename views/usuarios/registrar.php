@@ -22,7 +22,7 @@ ob_start();
       <select class="form-select" id="rol" name="rol" required>
         <option value="">Seleccione un rol</option>
         <option value="Administrador">Administrador</option>
-        <option value="Técnico">Técnico</option>
+        <option value="Mantenimientos">Mantenimientos</option>
         <option value="Invitado">Invitado</option>
       </select>
     </div>

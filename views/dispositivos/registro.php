@@ -1,4 +1,14 @@
 <?php
+<<<<<<< Updated upstream
+=======
+
+require_once __DIR__ . '/../../includes/auth.php';
+verificarAutenticacion(); // 1️⃣ Verifica si hay sesión iniciada
+verificarRol(['Administrador', 'Mantenimientos']);
+
+// session_start(); 
+
+>>>>>>> Stashed changes
 ob_start(); // Inicia el buffer
 ?>
 
