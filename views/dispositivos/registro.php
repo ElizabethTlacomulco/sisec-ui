@@ -1,32 +1,25 @@
 <?php
-<<<<<<< Updated upstream
-=======
-
 require_once __DIR__ . '/../../includes/auth.php';
-verificarAutenticacion(); // 1️⃣ Verifica si hay sesión iniciada
-verificarRol(['Administrador', 'Mantenimientos']);
+verificarAutenticacion();
+verificarRol(['Administrador', 'Técnico']);
 
-// session_start(); 
+ob_start();
 
->>>>>>> Stashed changes
-ob_start(); // Inicia el buffer
+$equipo = $_GET['equipo'] ?? 'camara'; // Valor por defecto
+
 ?>
 
-<h2 class="mb-4">Registrar nuevo dispositivo</h2>
+<h2 class="mb-4">Registrar cámara</h2>
 
 <form action="guardar.php" method="post" enctype="multipart/form-data" class="p-4" style="max-width: 950px; margin: auto;">
   <div class="row g-4">
 
-    <!-- Tipo y Fecha -->
-    <div class="col-md-3">
-      <label class="form-label">Tipo de dispositivo</label>
-      <select name="tipo" class="form-select" required>
-        <option value="">Selecciona</option>
-        <option value="Cámara">Cámara</option>
-        <option value="Sensor">Sensor</option>
-        <option value="Detector de humo">Detector de humo</option>
-      </select>
+    <!-- Equipo y Fecha -->
+    <div class="col-md-4">
+      <label class="form-label">Equipo</label>
+      <input type="text" name= "equipo" placeholder="Escribe el tipo de dispositivo" class="form-control" required>
     </div>
+
 
     <div class="col-md-3">
       <label class="form-label">Fecha de instalación</label>
@@ -34,13 +27,13 @@ ob_start(); // Inicia el buffer
     </div>
 
     <!-- Modelo y Estado -->
-    <div class="col-md-6">
+    <div class="col-md-3">
       <label class="form-label">Modelo</label>
       <input type="text" name="modelo" placeholder="Escribe el modelo" class="form-control" required>
     </div>
 
     <div class="col-md-3">
-      <label class="form-label">Estado</label>
+      <label class="form-label">Estado del equipo</label>
       <select name="estado" class="form-select" required>
         <option value="">Selecciona</option>
         <option value="Activo">Activo</option>
@@ -51,24 +44,61 @@ ob_start(); // Inicia el buffer
 
     <!-- Sucursal y Observaciones -->
     <div class="col-md-6">
-      <label class="form-label">Sucursal</label>
+      <label class="form-label">Ubicación del equipo (Sucursal)</label>
       <input type="text" name="sucursal" placeholder="Escribe el lugar de la instalación" class="form-control" required>
     </div>
 
-    <div class="col-md-6">
+    <div class="col-md-5">
       <label class="form-label">Observaciones</label>
       <input type="text" name="observaciones" placeholder="Escribe alguna observación" class="form-control">
     </div>
 
-    <!-- Imagen principal -->
-    <div class="col-md-4">
-      <label class="form-label">Sube la imagen del dispositivo</label>
-        <input type="file" name="imagen" accept="image/*" class="form-control" required>
+    <!-- Serie y MAC -->
+    <div class="col-md-3">
+      <label class="form-label">Número de serie</label>
+      <input type="text" name="serie" placeholder="Escribe el número de serie" class="form-control">
     </div>
 
-    <!-- Archivo adjunto -->
+    <div class="col-md-3">
+      <label class="form-label">Dirección MAC</label>
+      <input type="text" name="mac" placeholder="00:11:22:33:44:55" class="form-control">
+    </div>
+
+    <div class="col-md-3">
+      <label class="form-label">No. de Servidor</label>
+      <input type="text" name="servidor" placeholder= "Escribe el numero de servidor" class="form-control" value="<?= htmlspecialchars($device['servidor'] ?? '') ?>">
+    </div>
+
+    <div class="col-md-3">
+      <label class="form-label">VMS</label>
+      <input type="text" name="vms" placeholder= "Escribe el vms" class="form-control" value="<?= htmlspecialchars($device['servidor'] ?? '') ?>">
+    </div>
+
+    <div class="col-md-3">
+      <label class="form-label">Switch</label>
+      <input type="text" name="switch" placeholder= "Escribe el switch" class="form-control" value="<?= htmlspecialchars($device['switch'] ?? '') ?>">
+    </div>
+
+    <div class="col-md-3">
+      <label class="form-label">Puerto</label>
+      <input type="text" name="puerto" placeholder= "Escribe el número de puerto del switch" class="form-control" value="<?= htmlspecialchars($device['puerto'] ?? '') ?>">
+    </div>
+
+    <!-- Área de la tienda -->
+    <div class="col-md-4">
+      <label class="form-label">Área de la tienda</label>
+      <input type="text" name="area" placeholder= "Escribe el area de la tienda" class="form-control" value="<?= htmlspecialchars($device['puerto'] ?? '') ?>">
+    </div>
+
+    <!-- Imagen principal -->
+    <div class="col-md-6">
+      <label class="form-label">Imagen del dispositivo</label>
+      <input type="file" name="imagen" accept="image/*" class="form-control" required>
+    </div>
+
+    <!-- Imagen secundaria -->
     <div class="col-md-12">
-      <label class="form-label">Archivos adjuntos</label>
+      <label class="form-label">Imagen adicional o evidencia</label>
       <div class="border border-2 rounded p-4 text-center" style="background-color: #f5f1f1; border-color: #b69df0;">
         <i class="fas fa-image fa-2x mb-2 text-muted"></i>
         <input type="file" name="imagen2" accept="image/*,application/image" class="form-control mt-2" required>
@@ -84,8 +114,8 @@ ob_start(); // Inicia el buffer
   </div>
 </form>
 
+
 <?php
-// Variables para el layout
 $content = ob_get_clean();
 $pageTitle = "Registrar dispositivo";
 $pageHeader = "Registro de dispositivo";

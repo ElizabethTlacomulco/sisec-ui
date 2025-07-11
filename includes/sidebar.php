@@ -2,7 +2,7 @@
 <nav class="sidebar d-none d-md-flex flex-column justify-content-between">
   <div>
     <div class="text-center py-3">
-      <img src="/sisec-ui/public/img/logo.png" alt="Logo SISEC" style="max-height: 80px;">
+      <img src="/sisec-ui/public/img/logo.png" alt="Logo SISEC" style="max-height: 100px;">
     </div>
 
     <?php if (in_array($_SESSION['usuario_rol'], ['Administrador', 'Mantenimientos'])): ?>
